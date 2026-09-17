@@ -1,17 +1,13 @@
 package com.itson.libreria.dominio;
 
-import java.time.LocalDateTime;
-
 public class Stock {
 
 	private int id;
 	private Libro libro;
 	private int cantidad;
-	private LocalDateTime actualizadoEn;
 
 	public Stock() {
 		this.cantidad = 0;
-		this.actualizadoEn = LocalDateTime.now();
 	}
 
 	public Stock(int id, Libro libro, int cantidadInicial) {
@@ -21,7 +17,6 @@ public class Stock {
 		this.id = id;
 		this.libro = libro;
 		this.cantidad = cantidadInicial;
-		this.actualizadoEn = LocalDateTime.now();
 	}
 
 	public void agregar(int cantidad) {
@@ -29,7 +24,6 @@ public class Stock {
 			throw new IllegalArgumentException("La cantidad a agregar debe ser mayor a 0.");
 		}
 		this.cantidad += cantidad;
-		this.actualizadoEn = LocalDateTime.now();
 	}
 
 	public void disminuir(int cantidad) {
@@ -42,7 +36,6 @@ public class Stock {
 				+ "': disponible " + this.cantidad + ", solicitado " + cantidad + ".");
 		}
 		this.cantidad -= cantidad;
-		this.actualizadoEn = LocalDateTime.now();
 	}
 
 	public boolean hayDisponibilidad(int cantidad) {
@@ -74,20 +67,11 @@ public class Stock {
 			throw new IllegalArgumentException("La cantidad de stock no puede ser negativa.");
 		}
 		this.cantidad = cantidad;
-		this.actualizadoEn = LocalDateTime.now();
-	}
-
-	public LocalDateTime getActualizadoEn() {
-		return actualizadoEn;
-	}
-
-	public void setActualizadoEn(LocalDateTime actualizadoEn) {
-		this.actualizadoEn = actualizadoEn;
 	}
 
 	@Override
 	public String toString() {
-		return "Stock{" + "id=" + id + ", libro=" + libro + ", cantidad=" + cantidad + ", actualizadoEn=" + actualizadoEn + '}';
+		return "Stock{" + "id=" + id + ", libro=" + libro + ", cantidad=" + cantidad + '}';
 	}
 
 }
