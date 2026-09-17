@@ -84,9 +84,4 @@ public class Autor {
 		this.libros = libros != null ? libros : new ArrayList<>();
 	}
 
-	@Override
-	public String toString() {
-		return "Autor{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNacimiento=" + fechaNacimiento + ", nacionalidad=" + nacionalidad + ", libros=" + libros + '}';
-	}
-
 }

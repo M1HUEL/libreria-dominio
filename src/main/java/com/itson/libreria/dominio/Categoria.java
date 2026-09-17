@@ -53,9 +53,4 @@ public class Categoria {
 		this.libros = libros != null ? libros : new ArrayList<>();
 	}
 
-	@Override
-	public String toString() {
-		return "Categoria{" + "id=" + id + ", nombre=" + nombre + ", libros=" + libros + '}';
-	}
-
 }

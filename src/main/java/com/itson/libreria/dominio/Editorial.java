@@ -63,9 +63,4 @@ public class Editorial {
 		this.libros = libros != null ? libros : new ArrayList<>();
 	}
 
-	@Override
-	public String toString() {
-		return "Editorial{" + "id=" + id + ", nombre=" + nombre + ", direccion=" + direccion + ", libros=" + libros + '}';
-	}
-
 }

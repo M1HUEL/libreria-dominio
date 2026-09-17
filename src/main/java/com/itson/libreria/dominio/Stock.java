@@ -31,9 +31,7 @@ public class Stock {
 			throw new IllegalArgumentException("La cantidad a disminuir debe ser mayor a 0.");
 		}
 		if (cantidad > this.cantidad) {
-			throw new IllegalStateException(
-				"Stock insuficiente del libro '" + (libro != null ? libro.getTitulo() : null)
-				+ "': disponible " + this.cantidad + ", solicitado " + cantidad + ".");
+			throw new IllegalStateException("Stock insuficiente del libro '" + (libro != null ? libro.getTitulo() : null) + "': disponible " + this.cantidad + ", solicitado " + cantidad + ".");
 		}
 		this.cantidad -= cantidad;
 	}
@@ -67,11 +65,6 @@ public class Stock {
 			throw new IllegalArgumentException("La cantidad de stock no puede ser negativa.");
 		}
 		this.cantidad = cantidad;
-	}
-
-	@Override
-	public String toString() {
-		return "Stock{" + "id=" + id + ", libro=" + libro + ", cantidad=" + cantidad + '}';
 	}
 
 }

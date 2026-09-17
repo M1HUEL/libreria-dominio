@@ -134,9 +134,4 @@ public class Libro {
 		this.autores = autores != null ? autores : new ArrayList<>();
 	}
 
-	@Override
-	public String toString() {
-		return "Libro{" + "id=" + id + ", titulo=" + titulo + ", isbn=" + isbn + ", categoria=" + categoria + ", sinopsis=" + sinopsis + ", portada=" + portada + ", precio=" + precio + ", paginas=" + paginas + ", fechaPublicacion=" + fechaPublicacion + ", editorial=" + editorial + ", autores=" + autores + '}';
-	}
-
 }
