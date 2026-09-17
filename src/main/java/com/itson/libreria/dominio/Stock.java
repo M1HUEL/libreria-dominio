@@ -1,0 +1,93 @@
+package com.itson.libreria.dominio;
+
+import java.time.LocalDateTime;
+
+public class Stock {
+
+	private int id;
+	private Libro libro;
+	private int cantidad;
+	private LocalDateTime actualizadoEn;
+
+	public Stock() {
+		this.cantidad = 0;
+		this.actualizadoEn = LocalDateTime.now();
+	}
+
+	public Stock(int id, Libro libro, int cantidadInicial) {
+		if (cantidadInicial < 0) {
+			throw new IllegalArgumentException("La cantidad inicial de stock no puede ser negativa.");
+		}
+		this.id = id;
+		this.libro = libro;
+		this.cantidad = cantidadInicial;
+		this.actualizadoEn = LocalDateTime.now();
+	}
+
+	public void agregar(int cantidad) {
+		if (cantidad <= 0) {
+			throw new IllegalArgumentException("La cantidad a agregar debe ser mayor a 0.");
+		}
+		this.cantidad += cantidad;
+		this.actualizadoEn = LocalDateTime.now();
+	}
+
+	public void disminuir(int cantidad) {
+		if (cantidad <= 0) {
+			throw new IllegalArgumentException("La cantidad a disminuir debe ser mayor a 0.");
+		}
+		if (cantidad > this.cantidad) {
+			throw new IllegalStateException(
+				"Stock insuficiente del libro '" + (libro != null ? libro.getTitulo() : null)
+				+ "': disponible " + this.cantidad + ", solicitado " + cantidad + ".");
+		}
+		this.cantidad -= cantidad;
+		this.actualizadoEn = LocalDateTime.now();
+	}
+
+	public boolean hayDisponibilidad(int cantidad) {
+		return cantidad > 0 && this.cantidad >= cantidad;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Libro getLibro() {
+		return libro;
+	}
+
+	public void setLibro(Libro libro) {
+		this.libro = libro;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		if (cantidad < 0) {
+			throw new IllegalArgumentException("La cantidad de stock no puede ser negativa.");
+		}
+		this.cantidad = cantidad;
+		this.actualizadoEn = LocalDateTime.now();
+	}
+
+	public LocalDateTime getActualizadoEn() {
+		return actualizadoEn;
+	}
+
+	public void setActualizadoEn(LocalDateTime actualizadoEn) {
+		this.actualizadoEn = actualizadoEn;
+	}
+
+	@Override
+	public String toString() {
+		return "Stock{" + "id=" + id + ", libro=" + libro + ", cantidad=" + cantidad + ", actualizadoEn=" + actualizadoEn + '}';
+	}
+
+}
