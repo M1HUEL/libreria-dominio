@@ -1,16 +1,17 @@
 package com.itson.libreria.dominio;
 
-public class Stock {
+public class ItemStock {
 
 	private int id;
 	private Libro libro;
 	private int cantidad;
+	private int stockMinimo;
 
-	public Stock() {
+	public ItemStock() {
 		this.cantidad = 0;
 	}
 
-	public Stock(int id, Libro libro, int cantidadInicial) {
+	public ItemStock(int id, Libro libro, int cantidadInicial) {
 		if (cantidadInicial < 0) {
 			throw new IllegalArgumentException("La cantidad inicial de stock no puede ser negativa.");
 		}
@@ -40,6 +41,10 @@ public class Stock {
 		return cantidad > 0 && this.cantidad >= cantidad;
 	}
 
+	public boolean estaEnStockBajo() {
+		return cantidad <= stockMinimo;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -65,6 +70,17 @@ public class Stock {
 			throw new IllegalArgumentException("La cantidad de stock no puede ser negativa.");
 		}
 		this.cantidad = cantidad;
+	}
+
+	public int getStockMinimo() {
+		return stockMinimo;
+	}
+
+	public void setStockMinimo(int stockMinimo) {
+		if (stockMinimo < 0) {
+			throw new IllegalArgumentException("El stock mínimo no puede ser negativo.");
+		}
+		this.stockMinimo = stockMinimo;
 	}
 
 }

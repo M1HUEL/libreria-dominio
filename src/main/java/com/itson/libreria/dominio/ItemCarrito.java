@@ -8,6 +8,7 @@ public class ItemCarrito {
 	private int cantidad;
 
 	public ItemCarrito() {
+		// ...
 	}
 
 	public ItemCarrito(int id, CarritoCompra carrito, Libro libro, int cantidad) {

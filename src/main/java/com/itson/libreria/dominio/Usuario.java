@@ -9,7 +9,7 @@ public class Usuario {
 	private Rol rol;
 
 	public Usuario() {
-		// ...
+		this.rol = Rol.CLIENTE;
 	}
 
 	public Usuario(int id, String nombre, String correo, String contrasena, Rol rol) {
@@ -18,6 +18,10 @@ public class Usuario {
 		this.correo = correo;
 		this.contrasena = contrasena;
 		this.rol = rol;
+	}
+
+	public boolean esAdministrador() {
+		return rol == Rol.ADMINISTRADOR;
 	}
 
 	public int getId() {
@@ -58,11 +62,6 @@ public class Usuario {
 
 	public void setRol(Rol rol) {
 		this.rol = rol;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", correo=" + correo + ", contrasena=" + contrasena + ", rol=" + rol + '}';
 	}
 
 }

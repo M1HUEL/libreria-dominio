@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class AjusteInventario {
 
 	private int id;
-	private Stock stock;
+	private ItemStock stock;
 	private int cantidad;
 	private String motivo;
 	private LocalDateTime fecha;
@@ -14,7 +14,7 @@ public class AjusteInventario {
 		this.fecha = LocalDateTime.now();
 	}
 
-	public AjusteInventario(int id, Stock stock, int cantidad, String motivo, LocalDateTime fecha) {
+	public AjusteInventario(int id, ItemStock stock, int cantidad, String motivo, LocalDateTime fecha) {
 		if (cantidad == 0) {
 			throw new IllegalArgumentException("La cantidad del ajuste no puede ser 0.");
 		}
@@ -44,11 +44,11 @@ public class AjusteInventario {
 		this.id = id;
 	}
 
-	public Stock getStock() {
+	public ItemStock getStock() {
 		return stock;
 	}
 
-	public void setStock(Stock stock) {
+	public void setStock(ItemStock stock) {
 		this.stock = stock;
 	}
 

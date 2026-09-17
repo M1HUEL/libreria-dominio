@@ -17,9 +17,11 @@ public class Libro {
 	private LocalDate fechaPublicacion;
 	private Editorial editorial;
 	private List<Autor> autores;
+	private boolean activo;
 
 	public Libro() {
 		this.autores = new ArrayList<>();
+		this.activo = true;
 	}
 
 	public Libro(int id, String titulo, String isbn, Categoria categoria, String sinopsis, String portada, double precio, int paginas, LocalDate fechaPublicacion, Editorial editorial) {
@@ -34,6 +36,7 @@ public class Libro {
 		this.fechaPublicacion = fechaPublicacion;
 		this.editorial = editorial;
 		this.autores = new ArrayList<>();
+		this.activo = true;
 	}
 
 	public void agregarAutor(Autor autor) {
@@ -132,6 +135,14 @@ public class Libro {
 
 	public void setAutores(List<Autor> autores) {
 		this.autores = autores != null ? autores : new ArrayList<>();
+	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 
 }

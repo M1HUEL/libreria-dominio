@@ -1,29 +1,29 @@
 package com.itson.libreria.dominio;
 
-public class DetalleOrden {
+public class DetalleCarrito {
 
 	private int id;
-	private Orden orden;
+	private Carrito carrito;
 	private Libro libro;
 	private int cantidad;
 	private double precioUnitario;
 
-	public DetalleOrden() {
+	public DetalleCarrito() {
 		// ...
 	}
 
-	public DetalleOrden(int id, Orden orden, Libro libro, int cantidad, double precioUnitario) {
+	public DetalleCarrito(int id, Carrito carrito, Libro libro, int cantidad, double precioUnitario) {
 		if (cantidad <= 0) {
-			throw new IllegalArgumentException("La cantidad de la orden debe ser mayor a 0.");
+			throw new IllegalArgumentException("La cantidad del carrito debe ser mayor a 0.");
 		}
 		this.id = id;
-		this.orden = orden;
+		this.carrito = carrito;
 		this.libro = libro;
 		this.cantidad = cantidad;
 		this.precioUnitario = precioUnitario;
 	}
 
-	public double calcularSubtotal() {
+	public double getSubtotal() {
 		return cantidad * precioUnitario;
 	}
 
@@ -35,12 +35,12 @@ public class DetalleOrden {
 		this.id = id;
 	}
 
-	public Orden getOrden() {
-		return orden;
+	public Carrito getCarrito() {
+		return carrito;
 	}
 
-	public void setOrden(Orden orden) {
-		this.orden = orden;
+	public void setCarrito(Carrito carrito) {
+		this.carrito = carrito;
 	}
 
 	public Libro getLibro() {
@@ -57,7 +57,7 @@ public class DetalleOrden {
 
 	public void setCantidad(int cantidad) {
 		if (cantidad <= 0) {
-			throw new IllegalArgumentException("La cantidad de la orden debe ser mayor a 0.");
+			throw new IllegalArgumentException("La cantidad del carrito debe ser mayor a 0.");
 		}
 		this.cantidad = cantidad;
 	}
