@@ -30,9 +30,7 @@ public class Carrito {
 	}
 
 	public double getSubtotal() {
-		return detalle.stream()
-			.mapToDouble(DetalleCarrito::getSubtotal)
-			.sum();
+		return detalle.stream().mapToDouble(DetalleCarrito::getSubtotal).sum();
 	}
 
 	public int getId() {

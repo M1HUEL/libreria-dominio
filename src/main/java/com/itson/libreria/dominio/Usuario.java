@@ -9,7 +9,7 @@ public class Usuario {
 	private Rol rol;
 
 	public Usuario() {
-		this.rol = Rol.CLIENTE;
+		// ...
 	}
 
 	public Usuario(int id, String nombre, String correo, String contrasena, Rol rol) {
