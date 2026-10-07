@@ -13,10 +13,12 @@ public class Usuario {
 	private Rol rol;
 	private List<Carrito> carritos;
 	private List<Orden> ordenes;
+	private List<Direccion> direcciones;
 
 	public Usuario() {
 		this.carritos = new ArrayList<>();
 		this.ordenes = new ArrayList<>();
+		this.direcciones = new ArrayList<>();
 	}
 
 	public Usuario(int id, String nombre, String correo, String contrasena, String telefono, Rol rol) {
@@ -28,6 +30,7 @@ public class Usuario {
 		this.rol = rol;
 		this.carritos = new ArrayList<>();
 		this.ordenes = new ArrayList<>();
+		this.direcciones = new ArrayList<>();
 	}
 
 	public boolean esAdministrador() {
@@ -144,6 +147,50 @@ public class Usuario {
 		}
 		if (this.ordenes.remove(orden) && orden.getUsuario() == this) {
 			orden.setUsuario(null);
+		}
+	}
+
+	public List<Direccion> getDirecciones() {
+		return direcciones;
+	}
+
+	public void setDirecciones(List<Direccion> direcciones) {
+		this.direcciones = direcciones != null ? direcciones : new ArrayList<>();
+	}
+
+	public void agregarDireccion(Direccion direccion) {
+		if (direccion == null) {
+			throw new IllegalArgumentException("La direccion no puede ser nula.");
+		}
+		if (!this.direcciones.contains(direccion)) {
+			this.direcciones.add(direccion);
+		}
+		if (direccion.getUsuario() != this) {
+			direccion.setUsuario(this);
+		}
+		if (direccion.isPredeterminada()) {
+			desmarcarPredeterminadas(direccion);
+		}
+	}
+
+	public void removerDireccion(Direccion direccion) {
+		if (direccion == null) {
+			return;
+		}
+		if (this.direcciones.remove(direccion) && direccion.getUsuario() == this) {
+			direccion.setUsuario(null);
+		}
+	}
+
+	public Direccion getDireccionPredeterminada() {
+		return direcciones.stream().filter(Direccion::isPredeterminada).findFirst().orElse(direcciones.isEmpty() ? null : direcciones.get(0));
+	}
+
+	void desmarcarPredeterminadas(Direccion excepcion) {
+		for (Direccion direccion : this.direcciones) {
+			if (direccion != excepcion && direccion.isPredeterminada()) {
+				direccion.setPredeterminada(false);
+			}
 		}
 	}
 }

@@ -11,6 +11,7 @@ public class Orden {
 	private Usuario usuario;
 	private LocalDateTime fecha;
 	private EstadoOrden estado;
+	private Envio envio;
 	private List<DetalleOrden> detalle;
 
 	public Orden() {
@@ -56,7 +57,14 @@ public class Orden {
 		if (estado == EstadoOrden.ENTREGADO) {
 			throw new IllegalStateException("La orden ya fue entregada, no se puede avanzar más.");
 		}
-		this.estado = getSiguienteEstado();
+		EstadoOrden siguiente = getSiguienteEstado();
+		if (siguiente == EstadoOrden.ENVIADO && envio == null) {
+			throw new IllegalStateException("La orden no puede pasar a ENVIADO sin un Envio registrado.");
+		}
+		this.estado = siguiente;
+		if (siguiente == EstadoOrden.ENTREGADO && envio != null) {
+			envio.registrarEntrega(LocalDateTime.now());
+		}
 	}
 
 	private EstadoOrden getSiguienteEstado() {
@@ -119,6 +127,20 @@ public class Orden {
 
 	public void setEstado(EstadoOrden estado) {
 		this.estado = estado;
+	}
+
+	public Envio getEnvio() {
+		return envio;
+	}
+
+	public void setEnvio(Envio envio) {
+		if (envio == null) {
+			throw new IllegalArgumentException("El envio no puede ser nulo.");
+		}
+		if (this.envio != null && this.envio != envio) {
+			throw new IllegalStateException("La orden ya tiene un envio registrado.");
+		}
+		this.envio = envio;
 	}
 
 	public double getTotal() {
