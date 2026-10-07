@@ -63,6 +63,9 @@ public class Orden {
 		if (pagoProcesado) {
 			throw new IllegalStateException("El pago de la orden ya fue procesado.");
 		}
+		if (estado == EstadoOrden.CANCELADO) {
+			throw new IllegalStateException("No se puede procesar el pago de una orden cancelada.");
+		}
 		if (pago == null) {
 			throw new IllegalStateException("La orden no tiene un pago registrado.");
 		}
@@ -91,6 +94,9 @@ public class Orden {
 		if (estado == EstadoOrden.ENTREGADO) {
 			throw new IllegalStateException("La orden ya fue entregada, no se puede avanzar más.");
 		}
+		if (estado == EstadoOrden.CANCELADO) {
+			throw new IllegalStateException("Una orden cancelada no puede avanzar de estado.");
+		}
 		EstadoOrden siguiente = getSiguienteEstado();
 		if (siguiente == EstadoOrden.ENVIADO && envio == null) {
 			throw new IllegalStateException("La orden no puede pasar a ENVIADO sin un Envio registrado.");
@@ -98,6 +104,20 @@ public class Orden {
 		this.estado = siguiente;
 		if (siguiente == EstadoOrden.ENTREGADO && envio != null) {
 			envio.registrarEntrega(LocalDateTime.now());
+		}
+	}
+
+	public void cancelar() {
+		validarCancelacion();
+		this.estado = EstadoOrden.CANCELADO;
+	}
+
+	private void validarCancelacion() {
+		if (estado == EstadoOrden.ENVIADO || estado == EstadoOrden.ENTREGADO) {
+			throw new IllegalStateException("No se puede cancelar una orden enviada o entregada.");
+		}
+		if (estado == EstadoOrden.CANCELADO) {
+			throw new IllegalStateException("La orden ya fue cancelada.");
 		}
 	}
 
@@ -111,6 +131,8 @@ public class Orden {
 				EstadoOrden.ENTREGADO;
 			case ENTREGADO ->
 				EstadoOrden.ENTREGADO;
+			case CANCELADO ->
+				EstadoOrden.CANCELADO;
 		};
 	}
 
@@ -160,6 +182,15 @@ public class Orden {
 	}
 
 	public void setEstado(EstadoOrden estado) {
+		if (estado == null) {
+			throw new IllegalArgumentException("El estado de la orden no puede ser nulo.");
+		}
+		if (estado == EstadoOrden.CANCELADO) {
+			validarCancelacion();
+		}
+		if (this.estado == EstadoOrden.CANCELADO && estado != EstadoOrden.CANCELADO) {
+			throw new IllegalStateException("Una orden cancelada no puede cambiar de estado.");
+		}
 		this.estado = estado;
 	}
 
@@ -184,6 +215,9 @@ public class Orden {
 	public void setPago(Pago pago) {
 		if (pago == null) {
 			throw new IllegalArgumentException("El pago no puede ser nulo.");
+		}
+		if (estado == EstadoOrden.CANCELADO) {
+			throw new IllegalStateException("No se puede registrar el pago de una orden cancelada.");
 		}
 		if (this.pago != null && this.pago != pago) {
 			throw new IllegalStateException("La orden ya tiene un pago registrado.");
