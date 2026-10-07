@@ -4,26 +4,45 @@ public class DetalleOrden {
 
 	private int id;
 	private Orden orden;
-	private Libro libro;
+	private FormatoLibro formatoLibro;
 	private int cantidad;
 	private double precioUnitario;
+	private Descarga descarga;
 
 	public DetalleOrden() {
 		// ...
 	}
 
-	public DetalleOrden(int id, Orden orden, Libro libro, int cantidad, double precioUnitario) {
+	public DetalleOrden(int id, Orden orden, FormatoLibro formatoLibro, int cantidad, double precioUnitario) {
 		if (orden == null) {
 			throw new IllegalArgumentException("El detalle de la orden debe estar asociado a una orden.");
+		}
+		if (formatoLibro == null) {
+			throw new IllegalArgumentException("El detalle de la orden debe indicar el formato del libro.");
 		}
 		if (cantidad <= 0) {
 			throw new IllegalArgumentException("La cantidad de la orden debe ser mayor a 0.");
 		}
 		this.id = id;
-		this.libro = libro;
+		this.formatoLibro = formatoLibro;
 		this.cantidad = cantidad;
 		this.precioUnitario = precioUnitario;
 		orden.agregarDetalle(this);
+	}
+
+	public boolean esDigital() {
+		return formatoLibro != null && formatoLibro.esDigital();
+	}
+
+	public Descarga generarDescarga() {
+		if (descarga != null) {
+			return descarga;
+		}
+		if (!esDigital()) {
+			throw new IllegalStateException("Solo los formatos digitales generan descarga.");
+		}
+		setDescarga(new Descarga(this));
+		return descarga;
 	}
 
 	public double getSubtotal() {
@@ -52,12 +71,26 @@ public class DetalleOrden {
 		}
 	}
 
-	public Libro getLibro() {
-		return libro;
+	public FormatoLibro getFormatoLibro() {
+		return formatoLibro;
 	}
 
-	public void setLibro(Libro libro) {
-		this.libro = libro;
+	public void setFormatoLibro(FormatoLibro formatoLibro) {
+		if (formatoLibro == null) {
+			throw new IllegalArgumentException("El detalle de la orden debe indicar el formato del libro.");
+		}
+		this.formatoLibro = formatoLibro;
+	}
+
+	public Descarga getDescarga() {
+		return descarga;
+	}
+
+	public void setDescarga(Descarga descarga) {
+		if (this.descarga != null && this.descarga != descarga) {
+			throw new IllegalStateException("El detalle de la orden ya tiene una descarga.");
+		}
+		this.descarga = descarga;
 	}
 
 	public int getCantidad() {
@@ -76,6 +109,9 @@ public class DetalleOrden {
 	}
 
 	public void setPrecioUnitario(double precioUnitario) {
+		if (precioUnitario < 0) {
+			throw new IllegalArgumentException("El precio unitario de la orden no puede ser negativo.");
+		}
 		this.precioUnitario = precioUnitario;
 	}
 

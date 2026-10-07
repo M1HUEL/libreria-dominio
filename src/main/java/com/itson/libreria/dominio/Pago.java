@@ -44,6 +44,10 @@ public class Pago {
 		if (estado == EstadoPago.REEMBOLSADO) {
 			throw new IllegalStateException("Un pago reembolsado no puede completarse.");
 		}
+		if (orden == null) {
+			throw new IllegalStateException("El pago debe estar asociado a una orden.");
+		}
+		orden.procesarPago();
 		this.estado = EstadoPago.COMPLETADO;
 	}
 

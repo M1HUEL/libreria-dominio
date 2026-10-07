@@ -4,7 +4,7 @@ public class DetalleCarrito {
 
 	private int id;
 	private Carrito carrito;
-	private Libro libro;
+	private FormatoLibro formatoLibro;
 	private int cantidad;
 	private double precioUnitario;
 
@@ -12,15 +12,18 @@ public class DetalleCarrito {
 		// ...
 	}
 
-	public DetalleCarrito(int id, Carrito carrito, Libro libro, int cantidad, double precioUnitario) {
+	public DetalleCarrito(int id, Carrito carrito, FormatoLibro formatoLibro, int cantidad, double precioUnitario) {
 		if (carrito == null) {
 			throw new IllegalArgumentException("El detalle del carrito debe estar asociado a un carrito.");
+		}
+		if (formatoLibro == null) {
+			throw new IllegalArgumentException("El detalle del carrito debe indicar el formato del libro.");
 		}
 		if (cantidad <= 0) {
 			throw new IllegalArgumentException("La cantidad del carrito debe ser mayor a 0.");
 		}
 		this.id = id;
-		this.libro = libro;
+		this.formatoLibro = formatoLibro;
 		this.cantidad = cantidad;
 		this.precioUnitario = precioUnitario;
 		carrito.agregarItem(this);
@@ -52,12 +55,15 @@ public class DetalleCarrito {
 		}
 	}
 
-	public Libro getLibro() {
-		return libro;
+	public FormatoLibro getFormatoLibro() {
+		return formatoLibro;
 	}
 
-	public void setLibro(Libro libro) {
-		this.libro = libro;
+	public void setFormatoLibro(FormatoLibro formatoLibro) {
+		if (formatoLibro == null) {
+			throw new IllegalArgumentException("El detalle del carrito debe indicar el formato del libro.");
+		}
+		this.formatoLibro = formatoLibro;
 	}
 
 	public int getCantidad() {
@@ -76,6 +82,9 @@ public class DetalleCarrito {
 	}
 
 	public void setPrecioUnitario(double precioUnitario) {
+		if (precioUnitario < 0) {
+			throw new IllegalArgumentException("El precio unitario del carrito no puede ser negativo.");
+		}
 		this.precioUnitario = precioUnitario;
 	}
 

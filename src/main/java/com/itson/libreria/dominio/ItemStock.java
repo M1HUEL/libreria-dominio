@@ -6,7 +6,7 @@ import java.util.List;
 public class ItemStock {
 
 	private int id;
-	private Libro libro;
+	private FormatoLibro formatoLibro;
 	private int cantidad;
 	private int stockMinimo;
 	private List<AjusteInventario> ajustes;
@@ -16,14 +16,14 @@ public class ItemStock {
 		this.ajustes = new ArrayList<>();
 	}
 
-	public ItemStock(int id, Libro libro, int cantidadInicial) {
+	public ItemStock(int id, FormatoLibro formatoLibro, int cantidadInicial) {
 		if (cantidadInicial < 0) {
 			throw new IllegalArgumentException("La cantidad inicial de stock no puede ser negativa.");
 		}
 		this.id = id;
 		this.cantidad = cantidadInicial;
 		this.ajustes = new ArrayList<>();
-		setLibro(libro);
+		setFormatoLibro(formatoLibro);
 	}
 
 	public void registrarAjuste(AjusteInventario ajuste) {
@@ -47,9 +47,16 @@ public class ItemStock {
 			throw new IllegalArgumentException("La cantidad a disminuir debe ser mayor a 0.");
 		}
 		if (cantidad > this.cantidad) {
-			throw new IllegalStateException("Stock insuficiente del libro '" + (libro != null ? libro.getTitulo() : null) + "': disponible " + this.cantidad + ", solicitado " + cantidad + ".");
+			throw new IllegalStateException("Stock insuficiente de '" + getDescripcion() + "': disponible " + this.cantidad + ", solicitado " + cantidad + ".");
 		}
 		this.cantidad -= cantidad;
+	}
+
+	private String getDescripcion() {
+		if (formatoLibro == null || formatoLibro.getLibro() == null) {
+			return "el producto";
+		}
+		return formatoLibro.getLibro().getTitulo() + " (" + formatoLibro.getFormato() + ")";
 	}
 
 	public boolean hayDisponibilidad(int cantidad) {
@@ -68,17 +75,17 @@ public class ItemStock {
 		this.id = id;
 	}
 
-	public Libro getLibro() {
-		return libro;
+	public FormatoLibro getFormatoLibro() {
+		return formatoLibro;
 	}
 
-	public void setLibro(Libro libro) {
-		if (this.libro != null && this.libro != libro) {
-			this.libro.removerStock(this);
+	public void setFormatoLibro(FormatoLibro formatoLibro) {
+		if (this.formatoLibro != null && this.formatoLibro != formatoLibro) {
+			this.formatoLibro.removerStock(this);
 		}
-		this.libro = libro;
-		if (libro != null) {
-			libro.agregarStock(this);
+		this.formatoLibro = formatoLibro;
+		if (formatoLibro != null) {
+			formatoLibro.agregarStock(this);
 		}
 	}
 

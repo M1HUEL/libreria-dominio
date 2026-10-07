@@ -12,23 +12,22 @@ public class Libro {
 	private Categoria categoria;
 	private String sinopsis;
 	private String portada;
-	private double precio;
 	private int paginas;
 	private LocalDate fechaPublicacion;
 	private Editorial editorial;
 	private List<Autor> autores;
-	private List<ItemStock> stocks;
+	private List<FormatoLibro> formatos;
 	private boolean activo;
 
 	public Libro() {
 		this.autores = new ArrayList<>();
-		this.stocks = new ArrayList<>();
+		this.formatos = new ArrayList<>();
 		this.activo = true;
 	}
 
-	public Libro(int id, String titulo, String isbn, Categoria categoria, String sinopsis, String portada, double precio, int paginas, LocalDate fechaPublicacion, Editorial editorial) {
+	public Libro(int id, String titulo, String isbn, Categoria categoria, String sinopsis, String portada, int paginas, LocalDate fechaPublicacion, Editorial editorial) {
 		this.autores = new ArrayList<>();
-		this.stocks = new ArrayList<>();
+		this.formatos = new ArrayList<>();
 		this.activo = true;
 		this.id = id;
 		this.titulo = titulo;
@@ -36,7 +35,6 @@ public class Libro {
 		setCategoria(categoria);
 		this.sinopsis = sinopsis;
 		this.portada = portada;
-		this.precio = precio;
 		this.paginas = paginas;
 		this.fechaPublicacion = fechaPublicacion;
 		setEditorial(editorial);
@@ -55,19 +53,29 @@ public class Libro {
 		}
 	}
 
-	public void agregarStock(ItemStock stock) {
-		if (stock != null && !this.stocks.contains(stock)) {
-			this.stocks.add(stock);
-			stock.setLibro(this);
+	public void agregarFormato(FormatoLibro formatoLibro) {
+		if (formatoLibro == null) {
+			throw new IllegalArgumentException("El formato del libro no puede ser nulo.");
+		}
+		for (FormatoLibro existente : this.formatos) {
+			if (existente != formatoLibro && existente.getFormato() == formatoLibro.getFormato()) {
+				throw new IllegalStateException("El libro ya tiene el formato " + formatoLibro.getFormato() + ".");
+			}
+		}
+		if (!this.formatos.contains(formatoLibro)) {
+			this.formatos.add(formatoLibro);
+		}
+		if (formatoLibro.getLibro() != this) {
+			formatoLibro.setLibro(this);
 		}
 	}
 
-	public void removerStock(ItemStock stock) {
-		if (stock == null) {
+	public void removerFormato(FormatoLibro formatoLibro) {
+		if (formatoLibro == null) {
 			return;
 		}
-		if (this.stocks.remove(stock) && stock.getLibro() == this) {
-			stock.setLibro(null);
+		if (this.formatos.remove(formatoLibro) && formatoLibro.getLibro() == this) {
+			formatoLibro.setLibro(null);
 		}
 	}
 
@@ -125,14 +133,6 @@ public class Libro {
 		this.portada = portada;
 	}
 
-	public double getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(double precio) {
-		this.precio = precio;
-	}
-
 	public int getPaginas() {
 		return paginas;
 	}
@@ -171,12 +171,20 @@ public class Libro {
 		this.autores = autores != null ? autores : new ArrayList<>();
 	}
 
-	public List<ItemStock> getStocks() {
-		return stocks;
+	public List<FormatoLibro> getFormatos() {
+		return formatos;
 	}
 
-	public void setStocks(List<ItemStock> stocks) {
-		this.stocks = stocks != null ? stocks : new ArrayList<>();
+	public void setFormatos(List<FormatoLibro> formatos) {
+		this.formatos = formatos != null ? formatos : new ArrayList<>();
+	}
+
+	public FormatoLibro getFormato(Formato formato) {
+		return formatos.stream().filter(f -> f.getFormato() == formato).findFirst().orElse(null);
+	}
+
+	public List<ItemStock> getStocks() {
+		return formatos.stream().map(FormatoLibro::getStock).filter(s -> s != null).toList();
 	}
 
 	public boolean isActivo() {

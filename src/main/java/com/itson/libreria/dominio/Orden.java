@@ -13,6 +13,7 @@ public class Orden {
 	private EstadoOrden estado;
 	private Envio envio;
 	private Pago pago;
+	private boolean pagoProcesado;
 	private List<DetalleOrden> detalle;
 
 	public Orden() {
@@ -52,6 +53,38 @@ public class Orden {
 		if (this.detalle.remove(item) && item.getOrden() == this) {
 			item.setOrden(null);
 		}
+	}
+
+	public boolean isPagoProcesado() {
+		return pagoProcesado;
+	}
+
+	public void procesarPago() {
+		if (pagoProcesado) {
+			throw new IllegalStateException("El pago de la orden ya fue procesado.");
+		}
+		if (pago == null) {
+			throw new IllegalStateException("La orden no tiene un pago registrado.");
+		}
+		for (DetalleOrden item : detalle) {
+			if (item.getFormatoLibro() == null) {
+				throw new IllegalStateException("La orden tiene un detalle sin formato de libro.");
+			}
+			if (!item.esDigital()) {
+				ItemStock stock = item.getFormatoLibro().getStock();
+				if (stock == null || !stock.hayDisponibilidad(item.getCantidad())) {
+					throw new IllegalStateException("Stock insuficiente para el formato " + item.getFormatoLibro().getFormato() + " del libro '" + item.getFormatoLibro().getLibro().getTitulo() + "'.");
+				}
+			}
+		}
+		for (DetalleOrden item : detalle) {
+			if (item.esDigital()) {
+				item.generarDescarga();
+			} else {
+				item.getFormatoLibro().getStock().disminuir(item.getCantidad());
+			}
+		}
+		this.pagoProcesado = true;
 	}
 
 	public void avanzarEstado() {
