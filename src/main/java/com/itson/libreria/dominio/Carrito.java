@@ -14,6 +14,9 @@ public class Carrito {
 	}
 
 	public Carrito(int id, Usuario usuario) {
+		if (usuario == null || !usuario.puedeComprar()) {
+			throw new IllegalArgumentException("El usuario no puede realizar compras.");
+		}
 		this.id = id;
 		this.usuario = usuario;
 		this.detalle = new ArrayList<>();
@@ -46,6 +49,9 @@ public class Carrito {
 	}
 
 	public void setUsuario(Usuario usuario) {
+		if (usuario == null || !usuario.puedeComprar()) {
+			throw new IllegalArgumentException("El usuario no puede realizar compras.");
+		}
 		this.usuario = usuario;
 	}
 

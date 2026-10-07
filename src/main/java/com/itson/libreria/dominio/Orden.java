@@ -21,6 +21,9 @@ public class Orden {
 	}
 
 	public Orden(int id, String numeroOrden, Usuario usuario, LocalDateTime fecha, EstadoOrden estado, double total) {
+		if (usuario == null || !usuario.puedeComprar()) {
+			throw new IllegalArgumentException("El usuario no puede realizar compras.");
+		}
 		this.id = id;
 		this.numeroOrden = numeroOrden;
 		this.usuario = usuario;
@@ -81,6 +84,9 @@ public class Orden {
 	}
 
 	public void setUsuario(Usuario usuario) {
+		if (usuario == null || !usuario.puedeComprar()) {
+			throw new IllegalArgumentException("El usuario no puede realizar compras.");
+		}
 		this.usuario = usuario;
 	}
 
