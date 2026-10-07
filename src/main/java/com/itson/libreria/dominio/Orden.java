@@ -11,7 +11,6 @@ public class Orden {
 	private Usuario usuario;
 	private LocalDateTime fecha;
 	private EstadoOrden estado;
-	private double total;
 	private List<DetalleOrden> detalle;
 
 	public Orden() {
@@ -20,7 +19,7 @@ public class Orden {
 		this.detalle = new ArrayList<>();
 	}
 
-	public Orden(int id, String numeroOrden, Usuario usuario, LocalDateTime fecha, EstadoOrden estado, double total) {
+	public Orden(int id, String numeroOrden, Usuario usuario, LocalDateTime fecha, EstadoOrden estado) {
 		if (usuario == null || !usuario.puedeComprar()) {
 			throw new IllegalArgumentException("El usuario no puede realizar compras.");
 		}
@@ -28,7 +27,6 @@ public class Orden {
 		this.numeroOrden = numeroOrden;
 		this.fecha = fecha;
 		this.estado = estado;
-		this.total = total;
 		this.detalle = new ArrayList<>();
 		setUsuario(usuario);
 	}
@@ -124,11 +122,7 @@ public class Orden {
 	}
 
 	public double getTotal() {
-		return total;
-	}
-
-	public void setTotal(double total) {
-		this.total = total;
+		return detalle.stream().mapToDouble(DetalleOrden::getSubtotal).sum();
 	}
 
 	public List<DetalleOrden> getDetalle() {
