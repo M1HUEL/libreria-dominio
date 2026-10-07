@@ -23,7 +23,7 @@ public class DetalleOrden {
 		this.precioUnitario = precioUnitario;
 	}
 
-	public double calcularSubtotal() {
+	public double getSubtotal() {
 		return cantidad * precioUnitario;
 	}
 
