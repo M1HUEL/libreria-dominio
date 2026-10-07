@@ -7,10 +7,10 @@ public class Carrito {
 
   private int id;
   private Usuario usuario;
-  private List<ItemCarrito> detalle;
+  private List<ItemCarrito> items;
 
   public Carrito() {
-    this.detalle = new ArrayList<>();
+    this.items = new ArrayList<>();
   }
 
   public Carrito(int id, Usuario usuario) {
@@ -19,17 +19,17 @@ public class Carrito {
     }
 
     this.id = id;
-    this.detalle = new ArrayList<>();
+    this.items = new ArrayList<>();
     setUsuario(usuario);
   }
 
   public void agregarItem(ItemCarrito item) {
     if (item == null) {
-      throw new IllegalArgumentException("El detalle del carrito no puede ser nulo.");
+      throw new IllegalArgumentException("El item del carrito no puede ser nulo.");
     }
 
-    if (!this.detalle.contains(item)) {
-      this.detalle.add(item);
+    if (!this.items.contains(item)) {
+      this.items.add(item);
     }
 
     if (item.getCarrito() != this) {
@@ -42,13 +42,13 @@ public class Carrito {
       return;
     }
 
-    if (this.detalle.remove(item) && item.getCarrito() == this) {
+    if (this.items.remove(item) && item.getCarrito() == this) {
       item.setCarrito(null);
     }
   }
 
   public double getSubtotal() {
-    return detalle.stream().mapToDouble(ItemCarrito::getSubtotal).sum();
+    return items.stream().mapToDouble(ItemCarrito::getSubtotal).sum();
   }
 
   public int getId() {
@@ -79,11 +79,11 @@ public class Carrito {
     }
   }
 
-  public List<ItemCarrito> getDetalle() {
-    return detalle;
+  public List<ItemCarrito> getItems() {
+    return items;
   }
 
-  public void setDetalle(List<ItemCarrito> detalle) {
-    this.detalle = detalle != null ? detalle : new ArrayList<>();
+  public void setItems(List<ItemCarrito> items) {
+    this.items = items != null ? items : new ArrayList<>();
   }
 }

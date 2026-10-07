@@ -14,11 +14,11 @@ public class ItemCarrito {
 
   public ItemCarrito(int id, Carrito carrito, FormatoLibro formatoLibro, int cantidad, double precioUnitario) {
     if (carrito == null) {
-      throw new IllegalArgumentException("El detalle del carrito debe estar asociado a un carrito.");
+      throw new IllegalArgumentException("El item del carrito debe estar asociado a un carrito.");
     }
 
     if (formatoLibro == null) {
-      throw new IllegalArgumentException("El detalle del carrito debe indicar el formato del libro.");
+      throw new IllegalArgumentException("El item del carrito debe indicar el formato del libro.");
     }
 
     if (cantidad <= 0) {
@@ -66,7 +66,7 @@ public class ItemCarrito {
 
   public void setFormatoLibro(FormatoLibro formatoLibro) {
     if (formatoLibro == null) {
-      throw new IllegalArgumentException("El detalle del carrito debe indicar el formato del libro.");
+      throw new IllegalArgumentException("El item del carrito debe indicar el formato del libro.");
     }
 
     this.formatoLibro = formatoLibro;

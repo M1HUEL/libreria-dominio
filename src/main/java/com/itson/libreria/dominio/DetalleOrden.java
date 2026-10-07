@@ -30,7 +30,7 @@ public class DetalleOrden {
     this.formatoLibro = formatoLibro;
     this.cantidad = cantidad;
     this.precioUnitario = precioUnitario;
-    orden.agregarDetalle(this);
+    orden.agregarItem(this);
   }
 
   public boolean esDigital() {
@@ -69,13 +69,13 @@ public class DetalleOrden {
 
   public void setOrden(Orden orden) {
     if (this.orden != null && this.orden != orden) {
-      this.orden.removerDetalle(this);
+      this.orden.removerItem(this);
     }
 
     this.orden = orden;
 
     if (orden != null) {
-      orden.agregarDetalle(this);
+      orden.agregarItem(this);
     }
   }
 

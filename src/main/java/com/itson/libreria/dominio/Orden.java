@@ -14,12 +14,12 @@ public class Orden {
   private Envio envio;
   private Pago pago;
   private boolean pagoProcesado;
-  private List<DetalleOrden> detalle;
+  private List<DetalleOrden> items;
 
   public Orden() {
     this.fecha = LocalDateTime.now();
     this.estado = EstadoOrden.PENDIENTE;
-    this.detalle = new ArrayList<>();
+    this.items = new ArrayList<>();
   }
 
   public Orden(int id, String numeroOrden, Usuario usuario, LocalDateTime fecha, EstadoOrden estado) {
@@ -31,17 +31,17 @@ public class Orden {
     this.numeroOrden = numeroOrden;
     this.fecha = fecha;
     this.estado = estado;
-    this.detalle = new ArrayList<>();
+    this.items = new ArrayList<>();
     setUsuario(usuario);
   }
 
-  public void agregarDetalle(DetalleOrden item) {
+  public void agregarItem(DetalleOrden item) {
     if (item == null) {
-      throw new IllegalArgumentException("El detalle de la orden no puede ser nulo.");
+      throw new IllegalArgumentException("El item de la orden no puede ser nulo.");
     }
 
-    if (!this.detalle.contains(item)) {
-      this.detalle.add(item);
+    if (!this.items.contains(item)) {
+      this.items.add(item);
     }
 
     if (item.getOrden() != this) {
@@ -49,12 +49,12 @@ public class Orden {
     }
   }
 
-  public void removerDetalle(DetalleOrden item) {
+  public void removerItem(DetalleOrden item) {
     if (item == null) {
       return;
     }
 
-    if (this.detalle.remove(item) && item.getOrden() == this) {
+    if (this.items.remove(item) && item.getOrden() == this) {
       item.setOrden(null);
     }
   }
@@ -76,9 +76,9 @@ public class Orden {
       throw new IllegalStateException("La orden no tiene un pago registrado.");
     }
 
-    for (DetalleOrden item : detalle) {
+    for (DetalleOrden item : items) {
       if (item.getFormatoLibro() == null) {
-        throw new IllegalStateException("La orden tiene un detalle sin formato de libro.");
+        throw new IllegalStateException("La orden tiene un item sin formato de libro.");
       }
 
       if (!item.esDigital()) {
@@ -90,7 +90,7 @@ public class Orden {
       }
     }
 
-    for (DetalleOrden item : detalle) {
+    for (DetalleOrden item : items) {
       if (item.esDigital()) {
         item.generarDescarga();
       } else {
@@ -251,14 +251,14 @@ public class Orden {
   }
 
   public double getTotal() {
-    return detalle.stream().mapToDouble(DetalleOrden::getSubtotal).sum();
+    return items.stream().mapToDouble(DetalleOrden::getSubtotal).sum();
   }
 
-  public List<DetalleOrden> getDetalle() {
-    return detalle;
+  public List<DetalleOrden> getItems() {
+    return items;
   }
 
-  public void setDetalle(List<DetalleOrden> detalle) {
-    this.detalle = detalle != null ? detalle : new ArrayList<>();
+  public void setItems(List<DetalleOrden> items) {
+    this.items = items != null ? items : new ArrayList<>();
   }
 }

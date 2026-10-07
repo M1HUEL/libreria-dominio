@@ -61,7 +61,7 @@ javac --release 21 -encoding UTF-8 -d out $(find src/main/java -name "*.java")
    tanto CLIENTE como ADMINISTRADOR pueden comprar.
 9. **Relaciones inversas**: cada lado mantiene su referencia (el lado dueño guarda la lista) y las
    multiplicidades se respetan en los setters (máximo un `Envio` y un `Pago` por `Orden`).
-10. **Nombre uniforme**: ambos detalles usan `getSubtotal()`.
+10. **Nombre uniforme**: `ItemCarrito` y `DetalleOrden` usan `getSubtotal()`.
 
 Estados de la orden:
 
