@@ -1,6 +1,6 @@
 package com.itson.libreria.dominio;
 
-public class DetalleOrden {
+public class ItemOrden {
 
   private int id;
   private Orden orden;
@@ -9,17 +9,17 @@ public class DetalleOrden {
   private double precioUnitario;
   private Descarga descarga;
 
-  public DetalleOrden() {
+  public ItemOrden() {
     // ...
   }
 
-  public DetalleOrden(int id, Orden orden, FormatoLibro formatoLibro, int cantidad, double precioUnitario) {
+  public ItemOrden(int id, Orden orden, FormatoLibro formatoLibro, int cantidad, double precioUnitario) {
     if (orden == null) {
-      throw new IllegalArgumentException("El detalle de la orden debe estar asociado a una orden.");
+      throw new IllegalArgumentException("El item de la orden debe estar asociado a una orden.");
     }
 
     if (formatoLibro == null) {
-      throw new IllegalArgumentException("El detalle de la orden debe indicar el formato del libro.");
+      throw new IllegalArgumentException("El item de la orden debe indicar el formato del libro.");
     }
 
     if (cantidad <= 0) {
@@ -85,7 +85,7 @@ public class DetalleOrden {
 
   public void setFormatoLibro(FormatoLibro formatoLibro) {
     if (formatoLibro == null) {
-      throw new IllegalArgumentException("El detalle de la orden debe indicar el formato del libro.");
+      throw new IllegalArgumentException("El item de la orden debe indicar el formato del libro.");
     }
 
     this.formatoLibro = formatoLibro;
@@ -97,7 +97,7 @@ public class DetalleOrden {
 
   public void setDescarga(Descarga descarga) {
     if (this.descarga != null && this.descarga != descarga) {
-      throw new IllegalStateException("El detalle de la orden ya tiene una descarga.");
+      throw new IllegalStateException("El item de la orden ya tiene una descarga.");
     }
 
     this.descarga = descarga;

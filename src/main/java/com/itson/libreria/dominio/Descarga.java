@@ -3,32 +3,32 @@ package com.itson.libreria.dominio;
 public class Descarga {
 
   private int id;
-  private DetalleOrden detalle;
+  private ItemOrden item;
   private String url;
 
   public Descarga() {
     // ...
   }
 
-  public Descarga(DetalleOrden detalle) {
-    if (detalle == null) {
-      throw new IllegalArgumentException("La descarga debe estar asociada a un detalle de orden.");
+  public Descarga(ItemOrden item) {
+    if (item == null) {
+      throw new IllegalArgumentException("La descarga debe estar asociada a un item de la orden.");
     }
 
-    if (!detalle.esDigital()) {
+    if (!item.esDigital()) {
       throw new IllegalStateException("Solo los formatos digitales generan descarga.");
     }
 
-    this.detalle = detalle;
+    this.item = item;
 
-    Orden orden = detalle.getOrden();
+    Orden orden = item.getOrden();
 
     String referencia = orden != null && orden.getNumeroOrden() != null ? orden.getNumeroOrden() : "orden";
 
-    this.url = "https://libreria.example.com/descargas/" + referencia + "/" + detalle.getId();
+    this.url = "https://libreria.example.com/descargas/" + referencia + "/" + item.getId();
 
-    if (detalle.getDescarga() != this) {
-      detalle.setDescarga(this);
+    if (item.getDescarga() != this) {
+      item.setDescarga(this);
     }
   }
 
@@ -40,8 +40,8 @@ public class Descarga {
     this.id = id;
   }
 
-  public DetalleOrden getDetalle() {
-    return detalle;
+  public ItemOrden getItem() {
+    return item;
   }
 
   public String getUrl() {

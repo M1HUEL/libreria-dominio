@@ -14,7 +14,7 @@ public class Orden {
   private Envio envio;
   private Pago pago;
   private boolean pagoProcesado;
-  private List<DetalleOrden> items;
+  private List<ItemOrden> items;
 
   public Orden() {
     this.fecha = LocalDateTime.now();
@@ -35,7 +35,7 @@ public class Orden {
     setUsuario(usuario);
   }
 
-  public void agregarItem(DetalleOrden item) {
+  public void agregarItem(ItemOrden item) {
     if (item == null) {
       throw new IllegalArgumentException("El item de la orden no puede ser nulo.");
     }
@@ -49,7 +49,7 @@ public class Orden {
     }
   }
 
-  public void removerItem(DetalleOrden item) {
+  public void removerItem(ItemOrden item) {
     if (item == null) {
       return;
     }
@@ -76,7 +76,7 @@ public class Orden {
       throw new IllegalStateException("La orden no tiene un pago registrado.");
     }
 
-    for (DetalleOrden item : items) {
+    for (ItemOrden item : items) {
       if (item.getFormatoLibro() == null) {
         throw new IllegalStateException("La orden tiene un item sin formato de libro.");
       }
@@ -90,7 +90,7 @@ public class Orden {
       }
     }
 
-    for (DetalleOrden item : items) {
+    for (ItemOrden item : items) {
       if (item.esDigital()) {
         item.generarDescarga();
       } else {
@@ -251,14 +251,14 @@ public class Orden {
   }
 
   public double getTotal() {
-    return items.stream().mapToDouble(DetalleOrden::getSubtotal).sum();
+    return items.stream().mapToDouble(ItemOrden::getSubtotal).sum();
   }
 
-  public List<DetalleOrden> getItems() {
+  public List<ItemOrden> getItems() {
     return items;
   }
 
-  public void setItems(List<DetalleOrden> items) {
+  public void setItems(List<ItemOrden> items) {
     this.items = items != null ? items : new ArrayList<>();
   }
 }

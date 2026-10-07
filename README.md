@@ -36,7 +36,7 @@ javac --release 21 -encoding UTF-8 -d out $(find src/main/java -name "*.java")
 | Identidad | `Usuario`, `Rol`, `Direccion` |
 | Catálogo | `Libro`, `Autor`, `Categoria`, `Editorial`, `Formato`, `FormatoLibro` |
 | Inventario | `ItemStock`, `AjusteInventario` |
-| Compra | `Carrito`, `ItemCarrito`, `Orden`, `DetalleOrden`, `EstadoOrden` |
+| Compra | `Carrito`, `ItemCarrito`, `Orden`, `ItemOrden`, `EstadoOrden` |
 | Entrega | `Envio` |
 | Pago | `Pago`, `EstadoPago`, `MetodoPago` |
 | Digital | `Descarga` |
@@ -54,14 +54,14 @@ javac --release 21 -encoding UTF-8 -d out $(find src/main/java -name "*.java")
    guía) son clases aparte de `Orden`.
 5. **Pago modelado**: el monto debe ser igual a `Orden.getTotal()`; estados `PENDIENTE`,
    `COMPLETADO`, `RECHAZADO` y `REEMBOLSADO`.
-6. **Total calculado**: `Orden.getTotal()` suma `DetalleOrden.getSubtotal()`; no hay campo `total`.
+6. **Total calculado**: `Orden.getTotal()` suma `ItemOrden.getSubtotal()`; no hay campo `total`.
 7. **Cancelación**: `EstadoOrden.CANCELADO` más la regla de que no se puede cancelar una orden
    `ENVIADO` ni `ENTREGADO`, ni reabrir una orden cancelada.
 8. **Usuario**: teléfono obligatorio y regla de compra compartida (`Usuario.puedeComprar()`), que
    tanto CLIENTE como ADMINISTRADOR pueden comprar.
 9. **Relaciones inversas**: cada lado mantiene su referencia (el lado dueño guarda la lista) y las
    multiplicidades se respetan en los setters (máximo un `Envio` y un `Pago` por `Orden`).
-10. **Nombre uniforme**: `ItemCarrito` y `DetalleOrden` usan `getSubtotal()`.
+10. **Nombre uniforme**: `ItemCarrito` y `ItemOrden` usan `getSubtotal()`.
 
 Estados de la orden:
 
