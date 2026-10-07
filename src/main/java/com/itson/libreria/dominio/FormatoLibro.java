@@ -2,97 +2,107 @@ package com.itson.libreria.dominio;
 
 public class FormatoLibro {
 
-	private int id;
-	private Libro libro;
-	private Formato formato;
-	private double precio;
-	private ItemStock stock;
+  private int id;
+  private Libro libro;
+  private Formato formato;
+  private double precio;
+  private ItemStock stock;
 
-	public FormatoLibro() {
-		// ...
-	}
+  public FormatoLibro() {
+    // ...
+  }
 
-	public FormatoLibro(int id, Libro libro, Formato formato, double precio) {
-		if (libro == null) {
-			throw new IllegalArgumentException("El formato debe estar asociado a un libro.");
-		}
-		if (formato == null) {
-			throw new IllegalArgumentException("El formato del libro no puede ser nulo.");
-		}
-		if (precio < 0) {
-			throw new IllegalArgumentException("El precio del formato no puede ser negativo.");
-		}
-		this.id = id;
-		this.formato = formato;
-		this.precio = precio;
-		if (!esDigital()) {
-			this.stock = new ItemStock(0, this, 0);
-		}
-		setLibro(libro);
-	}
+  public FormatoLibro(int id, Libro libro, Formato formato, double precio) {
+    if (libro == null) {
+      throw new IllegalArgumentException("El formato debe estar asociado a un libro.");
+    }
 
-	public boolean esDigital() {
-		return formato == Formato.DIGITAL;
-	}
+    if (formato == null) {
+      throw new IllegalArgumentException("El formato del libro no puede ser nulo.");
+    }
 
-	public void agregarStock(ItemStock stock) {
-		if (stock == null) {
-			throw new IllegalArgumentException("El stock no puede ser nulo.");
-		}
-		if (esDigital()) {
-			throw new IllegalStateException("El formato digital no lleva stock.");
-		}
-		if (this.stock != null && this.stock != stock) {
-			throw new IllegalStateException("El formato ya tiene un stock asignado.");
-		}
-		this.stock = stock;
-	}
+    if (precio < 0) {
+      throw new IllegalArgumentException("El precio del formato no puede ser negativo.");
+    }
 
-	public void removerStock(ItemStock stock) {
-		if (stock != null && this.stock == stock) {
-			this.stock = null;
-		}
-	}
+    this.id = id;
+    this.formato = formato;
+    this.precio = precio;
 
-	public int getId() {
-		return id;
-	}
+    if (!esDigital()) {
+      this.stock = new ItemStock(0, this, 0);
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    setLibro(libro);
+  }
 
-	public Libro getLibro() {
-		return libro;
-	}
+  public boolean esDigital() {
+    return formato == Formato.DIGITAL;
+  }
 
-	public void setLibro(Libro libro) {
-		if (this.libro != null && this.libro != libro) {
-			this.libro.removerFormato(this);
-		}
-		this.libro = libro;
-		if (libro != null) {
-			libro.agregarFormato(this);
-		}
-	}
+  public void agregarStock(ItemStock stock) {
+    if (stock == null) {
+      throw new IllegalArgumentException("El stock no puede ser nulo.");
+    }
 
-	public Formato getFormato() {
-		return formato;
-	}
+    if (esDigital()) {
+      throw new IllegalStateException("El formato digital no lleva stock.");
+    }
 
-	public double getPrecio() {
-		return precio;
-	}
+    if (this.stock != null && this.stock != stock) {
+      throw new IllegalStateException("El formato ya tiene un stock asignado.");
+    }
 
-	public void setPrecio(double precio) {
-		if (precio < 0) {
-			throw new IllegalArgumentException("El precio del formato no puede ser negativo.");
-		}
-		this.precio = precio;
-	}
+    this.stock = stock;
+  }
 
-	public ItemStock getStock() {
-		return stock;
-	}
+  public void removerStock(ItemStock stock) {
+    if (stock != null && this.stock == stock) {
+      this.stock = null;
+    }
+  }
 
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public Libro getLibro() {
+    return libro;
+  }
+
+  public void setLibro(Libro libro) {
+    if (this.libro != null && this.libro != libro) {
+      this.libro.removerFormato(this);
+    }
+
+    this.libro = libro;
+
+    if (libro != null) {
+      libro.agregarFormato(this);
+    }
+  }
+
+  public Formato getFormato() {
+    return formato;
+  }
+
+  public double getPrecio() {
+    return precio;
+  }
+
+  public void setPrecio(double precio) {
+    if (precio < 0) {
+      throw new IllegalArgumentException("El precio del formato no puede ser negativo.");
+    }
+
+    this.precio = precio;
+  }
+
+  public ItemStock getStock() {
+    return stock;
+  }
 }

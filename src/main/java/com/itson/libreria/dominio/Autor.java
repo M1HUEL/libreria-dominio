@@ -6,85 +6,85 @@ import java.util.List;
 
 public class Autor {
 
-	private int id;
-	private String nombre;
-	private String apellido;
-	private LocalDate fechaNacimiento;
-	private String nacionalidad;
-	private List<Libro> libros;
+  private int id;
+  private String nombre;
+  private String apellido;
+  private LocalDate fechaNacimiento;
+  private String nacionalidad;
+  private List<Libro> libros;
 
-	public Autor() {
-		this.libros = new ArrayList<>();
-	}
+  public Autor() {
+    this.libros = new ArrayList<>();
+  }
 
-	public Autor(int id, String nombre, String apellido, LocalDate fechaNacimiento, String nacionalidad) {
-		this.id = id;
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.fechaNacimiento = fechaNacimiento;
-		this.nacionalidad = nacionalidad;
-		this.libros = new ArrayList<>();
-	}
+  public Autor(int id, String nombre, String apellido, LocalDate fechaNacimiento, String nacionalidad) {
+    this.id = id;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.fechaNacimiento = fechaNacimiento;
+    this.nacionalidad = nacionalidad;
+    this.libros = new ArrayList<>();
+  }
 
-	public void agregarLibro(Libro libro) {
-		if (libro != null && !this.libros.contains(libro)) {
-			this.libros.add(libro);
-			libro.agregarAutor(this);
-		}
-	}
+  public void agregarLibro(Libro libro) {
+    if (libro != null && !this.libros.contains(libro)) {
+      this.libros.add(libro);
 
-	public void removerLibro(Libro libro) {
-		if (libro != null && this.libros.remove(libro)) {
-			libro.removerAutor(this);
-		}
-	}
+      libro.agregarAutor(this);
+    }
+  }
 
-	public int getId() {
-		return id;
-	}
+  public void removerLibro(Libro libro) {
+    if (libro != null && this.libros.remove(libro)) {
+      libro.removerAutor(this);
+    }
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public String getNombre() {
-		return nombre;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public String getNombre() {
+    return nombre;
+  }
 
-	public String getApellido() {
-		return apellido;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
+  public String getApellido() {
+    return apellido;
+  }
 
-	public LocalDate getFechaNacimiento() {
-		return fechaNacimiento;
-	}
+  public void setApellido(String apellido) {
+    this.apellido = apellido;
+  }
 
-	public void setFechaNacimiento(LocalDate fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
-	}
+  public LocalDate getFechaNacimiento() {
+    return fechaNacimiento;
+  }
 
-	public String getNacionalidad() {
-		return nacionalidad;
-	}
+  public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    this.fechaNacimiento = fechaNacimiento;
+  }
 
-	public void setNacionalidad(String nacionalidad) {
-		this.nacionalidad = nacionalidad;
-	}
+  public String getNacionalidad() {
+    return nacionalidad;
+  }
 
-	public List<Libro> getLibros() {
-		return libros;
-	}
+  public void setNacionalidad(String nacionalidad) {
+    this.nacionalidad = nacionalidad;
+  }
 
-	public void setLibros(List<Libro> libros) {
-		this.libros = libros != null ? libros : new ArrayList<>();
-	}
+  public List<Libro> getLibros() {
+    return libros;
+  }
 
+  public void setLibros(List<Libro> libros) {
+    this.libros = libros != null ? libros : new ArrayList<>();
+  }
 }

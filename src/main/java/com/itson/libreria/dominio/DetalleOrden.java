@@ -2,117 +2,128 @@ package com.itson.libreria.dominio;
 
 public class DetalleOrden {
 
-	private int id;
-	private Orden orden;
-	private FormatoLibro formatoLibro;
-	private int cantidad;
-	private double precioUnitario;
-	private Descarga descarga;
+  private int id;
+  private Orden orden;
+  private FormatoLibro formatoLibro;
+  private int cantidad;
+  private double precioUnitario;
+  private Descarga descarga;
 
-	public DetalleOrden() {
-		// ...
-	}
+  public DetalleOrden() {
+    // ...
+  }
 
-	public DetalleOrden(int id, Orden orden, FormatoLibro formatoLibro, int cantidad, double precioUnitario) {
-		if (orden == null) {
-			throw new IllegalArgumentException("El detalle de la orden debe estar asociado a una orden.");
-		}
-		if (formatoLibro == null) {
-			throw new IllegalArgumentException("El detalle de la orden debe indicar el formato del libro.");
-		}
-		if (cantidad <= 0) {
-			throw new IllegalArgumentException("La cantidad de la orden debe ser mayor a 0.");
-		}
-		this.id = id;
-		this.formatoLibro = formatoLibro;
-		this.cantidad = cantidad;
-		this.precioUnitario = precioUnitario;
-		orden.agregarDetalle(this);
-	}
+  public DetalleOrden(int id, Orden orden, FormatoLibro formatoLibro, int cantidad, double precioUnitario) {
+    if (orden == null) {
+      throw new IllegalArgumentException("El detalle de la orden debe estar asociado a una orden.");
+    }
 
-	public boolean esDigital() {
-		return formatoLibro != null && formatoLibro.esDigital();
-	}
+    if (formatoLibro == null) {
+      throw new IllegalArgumentException("El detalle de la orden debe indicar el formato del libro.");
+    }
 
-	public Descarga generarDescarga() {
-		if (descarga != null) {
-			return descarga;
-		}
-		if (!esDigital()) {
-			throw new IllegalStateException("Solo los formatos digitales generan descarga.");
-		}
-		setDescarga(new Descarga(this));
-		return descarga;
-	}
+    if (cantidad <= 0) {
+      throw new IllegalArgumentException("La cantidad de la orden debe ser mayor a 0.");
+    }
 
-	public double getSubtotal() {
-		return cantidad * precioUnitario;
-	}
+    this.id = id;
+    this.formatoLibro = formatoLibro;
+    this.cantidad = cantidad;
+    this.precioUnitario = precioUnitario;
+    orden.agregarDetalle(this);
+  }
 
-	public int getId() {
-		return id;
-	}
+  public boolean esDigital() {
+    return formatoLibro != null && formatoLibro.esDigital();
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public Descarga generarDescarga() {
+    if (descarga != null) {
+      return descarga;
+    }
 
-	public Orden getOrden() {
-		return orden;
-	}
+    if (!esDigital()) {
+      throw new IllegalStateException("Solo los formatos digitales generan descarga.");
+    }
 
-	public void setOrden(Orden orden) {
-		if (this.orden != null && this.orden != orden) {
-			this.orden.removerDetalle(this);
-		}
-		this.orden = orden;
-		if (orden != null) {
-			orden.agregarDetalle(this);
-		}
-	}
+    setDescarga(new Descarga(this));
 
-	public FormatoLibro getFormatoLibro() {
-		return formatoLibro;
-	}
+    return descarga;
+  }
 
-	public void setFormatoLibro(FormatoLibro formatoLibro) {
-		if (formatoLibro == null) {
-			throw new IllegalArgumentException("El detalle de la orden debe indicar el formato del libro.");
-		}
-		this.formatoLibro = formatoLibro;
-	}
+  public double getSubtotal() {
+    return cantidad * precioUnitario;
+  }
 
-	public Descarga getDescarga() {
-		return descarga;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setDescarga(Descarga descarga) {
-		if (this.descarga != null && this.descarga != descarga) {
-			throw new IllegalStateException("El detalle de la orden ya tiene una descarga.");
-		}
-		this.descarga = descarga;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public int getCantidad() {
-		return cantidad;
-	}
+  public Orden getOrden() {
+    return orden;
+  }
 
-	public void setCantidad(int cantidad) {
-		if (cantidad <= 0) {
-			throw new IllegalArgumentException("La cantidad de la orden debe ser mayor a 0.");
-		}
-		this.cantidad = cantidad;
-	}
+  public void setOrden(Orden orden) {
+    if (this.orden != null && this.orden != orden) {
+      this.orden.removerDetalle(this);
+    }
 
-	public double getPrecioUnitario() {
-		return precioUnitario;
-	}
+    this.orden = orden;
 
-	public void setPrecioUnitario(double precioUnitario) {
-		if (precioUnitario < 0) {
-			throw new IllegalArgumentException("El precio unitario de la orden no puede ser negativo.");
-		}
-		this.precioUnitario = precioUnitario;
-	}
+    if (orden != null) {
+      orden.agregarDetalle(this);
+    }
+  }
 
+  public FormatoLibro getFormatoLibro() {
+    return formatoLibro;
+  }
+
+  public void setFormatoLibro(FormatoLibro formatoLibro) {
+    if (formatoLibro == null) {
+      throw new IllegalArgumentException("El detalle de la orden debe indicar el formato del libro.");
+    }
+
+    this.formatoLibro = formatoLibro;
+  }
+
+  public Descarga getDescarga() {
+    return descarga;
+  }
+
+  public void setDescarga(Descarga descarga) {
+    if (this.descarga != null && this.descarga != descarga) {
+      throw new IllegalStateException("El detalle de la orden ya tiene una descarga.");
+    }
+
+    this.descarga = descarga;
+  }
+
+  public int getCantidad() {
+    return cantidad;
+  }
+
+  public void setCantidad(int cantidad) {
+    if (cantidad <= 0) {
+      throw new IllegalArgumentException("La cantidad de la orden debe ser mayor a 0.");
+    }
+
+    this.cantidad = cantidad;
+  }
+
+  public double getPrecioUnitario() {
+    return precioUnitario;
+  }
+
+  public void setPrecioUnitario(double precioUnitario) {
+    if (precioUnitario < 0) {
+      throw new IllegalArgumentException("El precio unitario de la orden no puede ser negativo.");
+    }
+
+    this.precioUnitario = precioUnitario;
+  }
 }

@@ -4,88 +4,90 @@ import java.time.LocalDateTime;
 
 public class AjusteInventario {
 
-	private int id;
-	private ItemStock stock;
-	private int cantidad;
-	private String motivo;
-	private LocalDateTime fecha;
+  private int id;
+  private ItemStock stock;
+  private int cantidad;
+  private String motivo;
+  private LocalDateTime fecha;
 
-	public AjusteInventario() {
-		this.fecha = LocalDateTime.now();
-	}
+  public AjusteInventario() {
+    this.fecha = LocalDateTime.now();
+  }
 
-	public AjusteInventario(int id, ItemStock stock, int cantidad, String motivo, LocalDateTime fecha) {
-		if (cantidad == 0) {
-			throw new IllegalArgumentException("La cantidad del ajuste no puede ser 0.");
-		}
-		this.id = id;
-		setStock(stock);
-		this.cantidad = cantidad;
-		this.motivo = motivo;
-		this.fecha = fecha;
-	}
+  public AjusteInventario(int id, ItemStock stock, int cantidad, String motivo, LocalDateTime fecha) {
+    if (cantidad == 0) {
+      throw new IllegalArgumentException("La cantidad del ajuste no puede ser 0.");
+    }
 
-	public void aplicarAjuste() {
-		if (stock == null) {
-			throw new IllegalStateException("El ajuste debe estar asociado a un stock.");
-		}
-		if (cantidad > 0) {
-			stock.agregar(cantidad);
-		} else {
-			stock.disminuir(Math.abs(cantidad));
-		}
-	}
+    this.id = id;
+    setStock(stock);
+    this.cantidad = cantidad;
+    this.motivo = motivo;
+    this.fecha = fecha;
+  }
 
-	public int getId() {
-		return id;
-	}
+  public void aplicarAjuste() {
+    if (stock == null) {
+      throw new IllegalStateException("El ajuste debe estar asociado a un stock.");
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    if (cantidad > 0) {
+      stock.agregar(cantidad);
+    } else {
+      stock.disminuir(Math.abs(cantidad));
+    }
+  }
 
-	public ItemStock getStock() {
-		return stock;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setStock(ItemStock stock) {
-		this.stock = stock;
-		if (stock != null) {
-			stock.registrarAjuste(this);
-		}
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public int getCantidad() {
-		return cantidad;
-	}
+  public ItemStock getStock() {
+    return stock;
+  }
 
-	public void setCantidad(int cantidad) {
-		if (cantidad == 0) {
-			throw new IllegalArgumentException("La cantidad del ajuste no puede ser 0.");
-		}
+  public void setStock(ItemStock stock) {
+    this.stock = stock;
 
-		this.cantidad = cantidad;
-	}
+    if (stock != null) {
+      stock.registrarAjuste(this);
+    }
+  }
 
-	public String getMotivo() {
-		return motivo;
-	}
+  public int getCantidad() {
+    return cantidad;
+  }
 
-	public void setMotivo(String motivo) {
-		this.motivo = motivo;
-	}
+  public void setCantidad(int cantidad) {
+    if (cantidad == 0) {
+      throw new IllegalArgumentException("La cantidad del ajuste no puede ser 0.");
+    }
 
-	public LocalDateTime getFecha() {
-		return fecha;
-	}
+    this.cantidad = cantidad;
+  }
 
-	public void setFecha(LocalDateTime fecha) {
-		this.fecha = fecha;
-	}
+  public String getMotivo() {
+    return motivo;
+  }
 
-	@Override
-	public String toString() {
-		return "AjusteInventario{" + "id=" + id + ", stock=" + stock + ", cantidad=" + cantidad + ", motivo=" + motivo + ", fecha=" + fecha + '}';
-	}
+  public void setMotivo(String motivo) {
+    this.motivo = motivo;
+  }
 
+  public LocalDateTime getFecha() {
+    return fecha;
+  }
+
+  public void setFecha(LocalDateTime fecha) {
+    this.fecha = fecha;
+  }
+
+  @Override
+  public String toString() {
+    return "AjusteInventario{" + "id=" + id + ", stock=" + stock + ", cantidad=" + cantidad + ", motivo=" + motivo + ", fecha=" + fecha + '}';
+  }
 }
