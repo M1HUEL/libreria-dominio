@@ -50,8 +50,8 @@ javac --release 21 -encoding UTF-8 -d out $(find src/main/java -name "*.java")
 3. **Pago dispara los efectos**: `Pago.completar()` llama a `Orden.procesarPago()`, que descuenta el
    stock de los formatos físicos y genera la `Descarga` de los digitales (una sola vez, por
    `Orden.isPagoProcesado()`).
-4. **Envío modelado**: `Direccion` (con predeterminada por usuario) y `Envio` (paquetería, número de
-   guía, fecha de envío y de entrega) son clases aparte de `Orden`.
+4. **Envío modelado**: `Direccion` (con predeterminada por usuario) y `Envio` (paquetería y número de
+   guía) son clases aparte de `Orden`.
 5. **Pago modelado**: el monto debe ser igual a `Orden.getTotal()`; estados `PENDIENTE`,
    `COMPLETADO`, `RECHAZADO` y `REEMBOLSADO`.
 6. **Total calculado**: `Orden.getTotal()` suma `DetalleOrden.getSubtotal()`; no hay campo `total`.

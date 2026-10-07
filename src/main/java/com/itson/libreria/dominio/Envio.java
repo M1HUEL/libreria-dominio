@@ -1,7 +1,5 @@
 package com.itson.libreria.dominio;
 
-import java.time.LocalDateTime;
-
 public class Envio {
 
   private int id;
@@ -9,15 +7,12 @@ public class Envio {
   private Direccion direccion;
   private String paqueteria;
   private String numeroGuia;
-  private LocalDateTime fechaEnvio;
-  private LocalDateTime fechaEstimadaEntrega;
-  private LocalDateTime fechaEntrega;
 
   public Envio() {
     // ...
   }
 
-  public Envio(int id, Orden orden, Direccion direccion, String paqueteria, String numeroGuia, LocalDateTime fechaEnvio, LocalDateTime fechaEstimadaEntrega) {
+  public Envio(int id, Orden orden, Direccion direccion, String paqueteria, String numeroGuia) {
     if (orden == null) {
       throw new IllegalArgumentException("El envio debe estar asociado a una orden.");
     }
@@ -37,26 +32,8 @@ public class Envio {
     this.id = id;
     this.paqueteria = paqueteria;
     this.numeroGuia = numeroGuia;
-    this.fechaEnvio = fechaEnvio != null ? fechaEnvio : LocalDateTime.now();
-    this.fechaEstimadaEntrega = fechaEstimadaEntrega;
     setDireccion(direccion);
     setOrden(orden);
-  }
-
-  public void registrarEntrega(LocalDateTime fechaEntrega) {
-    if (fechaEntrega == null) {
-      throw new IllegalArgumentException("La fecha de entrega no puede ser nula.");
-    }
-
-    if (this.fechaEntrega != null) {
-      throw new IllegalStateException("El envio ya fue entregado.");
-    }
-
-    this.fechaEntrega = fechaEntrega;
-  }
-
-  public boolean estaEntregado() {
-    return fechaEntrega != null;
   }
 
   public int getId() {
@@ -125,29 +102,5 @@ public class Envio {
     }
 
     this.numeroGuia = numeroGuia;
-  }
-
-  public LocalDateTime getFechaEnvio() {
-    return fechaEnvio;
-  }
-
-  public void setFechaEnvio(LocalDateTime fechaEnvio) {
-    if (fechaEnvio == null) {
-      throw new IllegalArgumentException("La fecha de envio no puede ser nula.");
-    }
-
-    this.fechaEnvio = fechaEnvio;
-  }
-
-  public LocalDateTime getFechaEstimadaEntrega() {
-    return fechaEstimadaEntrega;
-  }
-
-  public void setFechaEstimadaEntrega(LocalDateTime fechaEstimadaEntrega) {
-    this.fechaEstimadaEntrega = fechaEstimadaEntrega;
-  }
-
-  public LocalDateTime getFechaEntrega() {
-    return fechaEntrega;
   }
 }

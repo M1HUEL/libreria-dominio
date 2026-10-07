@@ -117,10 +117,6 @@ public class Orden {
     }
 
     this.estado = siguiente;
-
-    if (siguiente == EstadoOrden.ENTREGADO && envio != null) {
-      envio.registrarEntrega(LocalDateTime.now());
-    }
   }
 
   public void cancelar() {
