@@ -1,6 +1,6 @@
 package com.itson.libreria.dominio;
 
-public class DetalleCarrito {
+public class ItemCarrito {
 
 	private int id;
 	private Carrito carrito;
@@ -8,11 +8,11 @@ public class DetalleCarrito {
 	private int cantidad;
 	private double precioUnitario;
 
-	public DetalleCarrito() {
+	public ItemCarrito() {
 		// ...
 	}
 
-	public DetalleCarrito(int id, Carrito carrito, FormatoLibro formatoLibro, int cantidad, double precioUnitario) {
+	public ItemCarrito(int id, Carrito carrito, FormatoLibro formatoLibro, int cantidad, double precioUnitario) {
 		if (carrito == null) {
 			throw new IllegalArgumentException("El detalle del carrito debe estar asociado a un carrito.");
 		}

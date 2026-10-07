@@ -36,14 +36,14 @@ javac --release 21 -encoding UTF-8 -d out $(find src/main/java -name "*.java")
 | Identidad | `Usuario`, `Rol`, `Direccion` |
 | Catálogo | `Libro`, `Autor`, `Categoria`, `Editorial`, `Formato`, `FormatoLibro` |
 | Inventario | `ItemStock`, `AjusteInventario` |
-| Compra | `Carrito`, `DetalleCarrito`, `Orden`, `DetalleOrden`, `EstadoOrden` |
+| Compra | `Carrito`, `ItemCarrito`, `Orden`, `DetalleOrden`, `EstadoOrden` |
 | Entrega | `Envio` |
 | Pago | `Pago`, `EstadoPago`, `MetodoPago` |
 | Digital | `Descarga` |
 
 ## Decisiones de modelado
 
-1. **Carrito único**: existe una sola clase de carrito (`Carrito` + `DetalleCarrito`), en lugar de un
+1. **Carrito único**: existe una sola clase de carrito (`Carrito` + `ItemCarrito`), en lugar de un
    carrito por compra.
 2. **Precio y stock por formato**: `Libro` no tiene precio; cada `FormatoLibro` (pasta dura, bolsillo,
    digital, ...) tiene su propio precio y su `ItemStock`. El formato digital no tiene stock.
