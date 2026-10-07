@@ -12,6 +12,7 @@ public class Orden {
 	private LocalDateTime fecha;
 	private EstadoOrden estado;
 	private Envio envio;
+	private Pago pago;
 	private List<DetalleOrden> detalle;
 
 	public Orden() {
@@ -141,6 +142,20 @@ public class Orden {
 			throw new IllegalStateException("La orden ya tiene un envio registrado.");
 		}
 		this.envio = envio;
+	}
+
+	public Pago getPago() {
+		return pago;
+	}
+
+	public void setPago(Pago pago) {
+		if (pago == null) {
+			throw new IllegalArgumentException("El pago no puede ser nulo.");
+		}
+		if (this.pago != null && this.pago != pago) {
+			throw new IllegalStateException("La orden ya tiene un pago registrado.");
+		}
+		this.pago = pago;
 	}
 
 	public double getTotal() {
