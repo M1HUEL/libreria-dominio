@@ -1,14 +1,10 @@
 package com.itson.libreria.dominio;
 
-import java.time.LocalDateTime;
-
 public class Descarga {
 
   private int id;
   private DetalleOrden detalle;
   private String url;
-  private LocalDateTime fechaGeneracion;
-  private LocalDateTime fechaExpiracion;
 
   public Descarga() {
     // ...
@@ -24,8 +20,6 @@ public class Descarga {
     }
 
     this.detalle = detalle;
-    this.fechaGeneracion = LocalDateTime.now();
-    this.fechaExpiracion = fechaGeneracion.plusDays(7);
 
     Orden orden = detalle.getOrden();
 
@@ -36,10 +30,6 @@ public class Descarga {
     if (detalle.getDescarga() != this) {
       detalle.setDescarga(this);
     }
-  }
-
-  public boolean estaVigente() {
-    return fechaExpiracion == null || !LocalDateTime.now().isAfter(fechaExpiracion);
   }
 
   public int getId() {
@@ -56,13 +46,5 @@ public class Descarga {
 
   public String getUrl() {
     return url;
-  }
-
-  public LocalDateTime getFechaGeneracion() {
-    return fechaGeneracion;
-  }
-
-  public LocalDateTime getFechaExpiracion() {
-    return fechaExpiracion;
   }
 }
