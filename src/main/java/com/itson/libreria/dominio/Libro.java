@@ -17,36 +17,58 @@ public class Libro {
 	private LocalDate fechaPublicacion;
 	private Editorial editorial;
 	private List<Autor> autores;
+	private List<ItemStock> stocks;
 	private boolean activo;
 
 	public Libro() {
 		this.autores = new ArrayList<>();
+		this.stocks = new ArrayList<>();
 		this.activo = true;
 	}
 
 	public Libro(int id, String titulo, String isbn, Categoria categoria, String sinopsis, String portada, double precio, int paginas, LocalDate fechaPublicacion, Editorial editorial) {
+		this.autores = new ArrayList<>();
+		this.stocks = new ArrayList<>();
+		this.activo = true;
 		this.id = id;
 		this.titulo = titulo;
 		this.isbn = isbn;
-		this.categoria = categoria;
+		setCategoria(categoria);
 		this.sinopsis = sinopsis;
 		this.portada = portada;
 		this.precio = precio;
 		this.paginas = paginas;
 		this.fechaPublicacion = fechaPublicacion;
-		this.editorial = editorial;
-		this.autores = new ArrayList<>();
-		this.activo = true;
+		setEditorial(editorial);
 	}
 
 	public void agregarAutor(Autor autor) {
 		if (autor != null && !this.autores.contains(autor)) {
 			this.autores.add(autor);
+			autor.agregarLibro(this);
 		}
 	}
 
 	public void removerAutor(Autor autor) {
-		this.autores.remove(autor);
+		if (autor != null && this.autores.remove(autor)) {
+			autor.removerLibro(this);
+		}
+	}
+
+	public void agregarStock(ItemStock stock) {
+		if (stock != null && !this.stocks.contains(stock)) {
+			this.stocks.add(stock);
+			stock.setLibro(this);
+		}
+	}
+
+	public void removerStock(ItemStock stock) {
+		if (stock == null) {
+			return;
+		}
+		if (this.stocks.remove(stock) && stock.getLibro() == this) {
+			stock.setLibro(null);
+		}
 	}
 
 	public int getId() {
@@ -78,7 +100,13 @@ public class Libro {
 	}
 
 	public void setCategoria(Categoria categoria) {
+		if (this.categoria != null && this.categoria != categoria) {
+			this.categoria.removerLibro(this);
+		}
 		this.categoria = categoria;
+		if (categoria != null && !categoria.getLibros().contains(this)) {
+			categoria.getLibros().add(this);
+		}
 	}
 
 	public String getSinopsis() {
@@ -126,7 +154,13 @@ public class Libro {
 	}
 
 	public void setEditorial(Editorial editorial) {
+		if (this.editorial != null && this.editorial != editorial) {
+			this.editorial.removerLibro(this);
+		}
 		this.editorial = editorial;
+		if (editorial != null && !editorial.getLibros().contains(this)) {
+			editorial.getLibros().add(this);
+		}
 	}
 
 	public List<Autor> getAutores() {
@@ -135,6 +169,14 @@ public class Libro {
 
 	public void setAutores(List<Autor> autores) {
 		this.autores = autores != null ? autores : new ArrayList<>();
+	}
+
+	public List<ItemStock> getStocks() {
+		return stocks;
+	}
+
+	public void setStocks(List<ItemStock> stocks) {
+		this.stocks = stocks != null ? stocks : new ArrayList<>();
 	}
 
 	public boolean isActivo() {

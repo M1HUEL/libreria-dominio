@@ -1,14 +1,19 @@
 package com.itson.libreria.dominio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemStock {
 
 	private int id;
 	private Libro libro;
 	private int cantidad;
 	private int stockMinimo;
+	private List<AjusteInventario> ajustes;
 
 	public ItemStock() {
 		this.cantidad = 0;
+		this.ajustes = new ArrayList<>();
 	}
 
 	public ItemStock(int id, Libro libro, int cantidadInicial) {
@@ -16,8 +21,18 @@ public class ItemStock {
 			throw new IllegalArgumentException("La cantidad inicial de stock no puede ser negativa.");
 		}
 		this.id = id;
-		this.libro = libro;
 		this.cantidad = cantidadInicial;
+		this.ajustes = new ArrayList<>();
+		setLibro(libro);
+	}
+
+	public void registrarAjuste(AjusteInventario ajuste) {
+		if (ajuste == null) {
+			throw new IllegalArgumentException("El ajuste de inventario no puede ser nulo.");
+		}
+		if (!this.ajustes.contains(ajuste)) {
+			this.ajustes.add(ajuste);
+		}
 	}
 
 	public void agregar(int cantidad) {
@@ -58,7 +73,17 @@ public class ItemStock {
 	}
 
 	public void setLibro(Libro libro) {
+		if (this.libro != null && this.libro != libro) {
+			this.libro.removerStock(this);
+		}
 		this.libro = libro;
+		if (libro != null) {
+			libro.agregarStock(this);
+		}
+	}
+
+	public List<AjusteInventario> getAjustes() {
+		return ajustes;
 	}
 
 	public int getCantidad() {

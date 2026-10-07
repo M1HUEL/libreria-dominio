@@ -13,14 +13,17 @@ public class DetalleOrden {
 	}
 
 	public DetalleOrden(int id, Orden orden, Libro libro, int cantidad, double precioUnitario) {
+		if (orden == null) {
+			throw new IllegalArgumentException("El detalle de la orden debe estar asociado a una orden.");
+		}
 		if (cantidad <= 0) {
 			throw new IllegalArgumentException("La cantidad de la orden debe ser mayor a 0.");
 		}
 		this.id = id;
-		this.orden = orden;
 		this.libro = libro;
 		this.cantidad = cantidad;
 		this.precioUnitario = precioUnitario;
+		orden.agregarDetalle(this);
 	}
 
 	public double getSubtotal() {
@@ -40,7 +43,13 @@ public class DetalleOrden {
 	}
 
 	public void setOrden(Orden orden) {
+		if (this.orden != null && this.orden != orden) {
+			this.orden.removerDetalle(this);
+		}
 		this.orden = orden;
+		if (orden != null) {
+			orden.agregarDetalle(this);
+		}
 	}
 
 	public Libro getLibro() {

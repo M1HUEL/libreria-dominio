@@ -19,7 +19,7 @@ public class AjusteInventario {
 			throw new IllegalArgumentException("La cantidad del ajuste no puede ser 0.");
 		}
 		this.id = id;
-		this.stock = stock;
+		setStock(stock);
 		this.cantidad = cantidad;
 		this.motivo = motivo;
 		this.fecha = fecha;
@@ -50,6 +50,9 @@ public class AjusteInventario {
 
 	public void setStock(ItemStock stock) {
 		this.stock = stock;
+		if (stock != null) {
+			stock.registrarAjuste(this);
+		}
 	}
 
 	public int getCantidad() {

@@ -1,5 +1,8 @@
 package com.itson.libreria.dominio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Usuario {
 
 	private int id;
@@ -8,9 +11,12 @@ public class Usuario {
 	private String contrasena;
 	private String telefono;
 	private Rol rol;
+	private List<Carrito> carritos;
+	private List<Orden> ordenes;
 
 	public Usuario() {
-		// ...
+		this.carritos = new ArrayList<>();
+		this.ordenes = new ArrayList<>();
 	}
 
 	public Usuario(int id, String nombre, String correo, String contrasena, String telefono, Rol rol) {
@@ -20,6 +26,8 @@ public class Usuario {
 		this.contrasena = contrasena;
 		setTelefono(telefono);
 		this.rol = rol;
+		this.carritos = new ArrayList<>();
+		this.ordenes = new ArrayList<>();
 	}
 
 	public boolean esAdministrador() {
@@ -81,4 +89,61 @@ public class Usuario {
 		this.rol = rol;
 	}
 
+	public List<Carrito> getCarritos() {
+		return carritos;
+	}
+
+	public void setCarritos(List<Carrito> carritos) {
+		this.carritos = carritos != null ? carritos : new ArrayList<>();
+	}
+
+	public void agregarCarrito(Carrito carrito) {
+		if (carrito == null) {
+			throw new IllegalArgumentException("El carrito no puede ser nulo.");
+		}
+		if (!this.carritos.contains(carrito)) {
+			this.carritos.add(carrito);
+		}
+		if (carrito.getUsuario() != this) {
+			carrito.setUsuario(this);
+		}
+	}
+
+	public void removerCarrito(Carrito carrito) {
+		if (carrito == null) {
+			return;
+		}
+		if (this.carritos.remove(carrito) && carrito.getUsuario() == this) {
+			carrito.setUsuario(null);
+		}
+	}
+
+	public List<Orden> getOrdenes() {
+		return ordenes;
+	}
+
+	public void setOrdenes(List<Orden> ordenes) {
+		this.ordenes = ordenes != null ? ordenes : new ArrayList<>();
+	}
+
+	public void agregarOrden(Orden orden) {
+		if (orden == null) {
+			throw new IllegalArgumentException("La orden no puede ser nula.");
+		}
+		if (!this.ordenes.contains(orden)) {
+			this.ordenes.add(orden);
+		}
+		if (orden.getUsuario() != this) {
+			orden.setUsuario(this);
+		}
+	}
+
+	public void removerOrden(Orden orden) {
+		if (orden == null) {
+			return;
+		}
+		if (this.ordenes.remove(orden) && orden.getUsuario() == this) {
+			orden.setUsuario(null);
+		}
+	}
 }

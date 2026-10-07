@@ -22,11 +22,14 @@ public class Categoria {
 	public void agregarLibro(Libro libro) {
 		if (libro != null && !this.libros.contains(libro)) {
 			this.libros.add(libro);
+			libro.setCategoria(this);
 		}
 	}
 
 	public void removerLibro(Libro libro) {
-		this.libros.remove(libro);
+		if (libro != null && this.libros.remove(libro) && libro.getCategoria() == this) {
+			libro.setCategoria(null);
+		}
 	}
 
 	public int getId() {

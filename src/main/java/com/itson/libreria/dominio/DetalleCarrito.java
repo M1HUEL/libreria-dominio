@@ -13,14 +13,17 @@ public class DetalleCarrito {
 	}
 
 	public DetalleCarrito(int id, Carrito carrito, Libro libro, int cantidad, double precioUnitario) {
+		if (carrito == null) {
+			throw new IllegalArgumentException("El detalle del carrito debe estar asociado a un carrito.");
+		}
 		if (cantidad <= 0) {
 			throw new IllegalArgumentException("La cantidad del carrito debe ser mayor a 0.");
 		}
 		this.id = id;
-		this.carrito = carrito;
 		this.libro = libro;
 		this.cantidad = cantidad;
 		this.precioUnitario = precioUnitario;
+		carrito.agregarItem(this);
 	}
 
 	public double getSubtotal() {
@@ -40,7 +43,13 @@ public class DetalleCarrito {
 	}
 
 	public void setCarrito(Carrito carrito) {
+		if (this.carrito != null && this.carrito != carrito) {
+			this.carrito.removerItem(this);
+		}
 		this.carrito = carrito;
+		if (carrito != null) {
+			carrito.agregarItem(this);
+		}
 	}
 
 	public Libro getLibro() {

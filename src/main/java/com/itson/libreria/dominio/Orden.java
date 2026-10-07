@@ -26,21 +26,32 @@ public class Orden {
 		}
 		this.id = id;
 		this.numeroOrden = numeroOrden;
-		this.usuario = usuario;
 		this.fecha = fecha;
 		this.estado = estado;
 		this.total = total;
 		this.detalle = new ArrayList<>();
+		setUsuario(usuario);
 	}
 
 	public void agregarDetalle(DetalleOrden item) {
-		if (item != null) {
+		if (item == null) {
+			throw new IllegalArgumentException("El detalle de la orden no puede ser nulo.");
+		}
+		if (!this.detalle.contains(item)) {
 			this.detalle.add(item);
+		}
+		if (item.getOrden() != this) {
+			item.setOrden(this);
 		}
 	}
 
 	public void removerDetalle(DetalleOrden item) {
-		this.detalle.remove(item);
+		if (item == null) {
+			return;
+		}
+		if (this.detalle.remove(item) && item.getOrden() == this) {
+			item.setOrden(null);
+		}
 	}
 
 	public void avanzarEstado() {
@@ -84,10 +95,16 @@ public class Orden {
 	}
 
 	public void setUsuario(Usuario usuario) {
-		if (usuario == null || !usuario.puedeComprar()) {
+		if (usuario != null && !usuario.puedeComprar()) {
 			throw new IllegalArgumentException("El usuario no puede realizar compras.");
 		}
+		if (this.usuario != null && this.usuario != usuario) {
+			this.usuario.removerOrden(this);
+		}
 		this.usuario = usuario;
+		if (usuario != null) {
+			usuario.agregarOrden(this);
+		}
 	}
 
 	public LocalDateTime getFecha() {

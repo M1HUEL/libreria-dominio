@@ -24,11 +24,14 @@ public class Editorial {
 	public void agregarLibro(Libro libro) {
 		if (libro != null && !this.libros.contains(libro)) {
 			this.libros.add(libro);
+			libro.setEditorial(this);
 		}
 	}
 
 	public void removerLibro(Libro libro) {
-		this.libros.remove(libro);
+		if (libro != null && this.libros.remove(libro) && libro.getEditorial() == this) {
+			libro.setEditorial(null);
+		}
 	}
 
 	public int getId() {

@@ -29,11 +29,14 @@ public class Autor {
 	public void agregarLibro(Libro libro) {
 		if (libro != null && !this.libros.contains(libro)) {
 			this.libros.add(libro);
+			libro.agregarAutor(this);
 		}
 	}
 
 	public void removerLibro(Libro libro) {
-		this.libros.remove(libro);
+		if (libro != null && this.libros.remove(libro)) {
+			libro.removerAutor(this);
+		}
 	}
 
 	public int getId() {
